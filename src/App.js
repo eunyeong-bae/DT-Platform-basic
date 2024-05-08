@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import './App.css';
+import { useEffect } from 'react';
 import Login from './pages/Login';
 import MainPage from './pages/MainPage';
 import { Routes, Route} from 'react-router-dom';
@@ -7,7 +7,8 @@ import ContentsPage from './pages/ContentsPage';
 import MyAppPage from './pages/MyAppPage';
 import StoryAppPage from './pages/StoryAppPage';
 import Header from './componenets/Header';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import ModalPortal from './componenets/ModalPortal';
 
 function App() {
   /**
@@ -17,29 +18,33 @@ function App() {
    * 
    */
   // const [isAuthorized, setIsAuthorized ] = useState(true);
-
-  const currentPage = useSelector(state => state.currentPage);
+  const authenticate = useSelector(state => state.userData.authenticate); 
 
   return (
     <div  className='app-container'>
-      <div className='nav-container'>
-        <Header rMenu={currentPage} />
-      </div>
+      {
+        authenticate && 
+        <div className='nav-container'>
+          <Header />
+        </div>
+      }
       
       <div className='main-container'>
         <Routes>
-          {/* { !isAuthorized 
-            ? <Route path='/login' element={<Login />} /> : <Route path='/' element={<MainPage />} /> } */}
-          {/* {!isAuthorized ? <Login /> : <MainPage /> } */}
-          <Route path='/' element={<MainPage />} />
+          {
+            authenticate ?
+              <Route path='/' element={<MainPage />} />
+            :
+              <Route path='/login' element={<Login />} />
+          }
+
           <Route path='/contents' element={<ContentsPage />} />
           <Route path='/myApp' element={<MyAppPage />} />
-          <Route path='/storyApp' element={<StoryAppPage />} />
+          <Route path='/storyApp' element={<StoryAppPage />} />          
         </Routes>
+        <ModalPortal />
       </div>
     </div>
-
-
   );
 }
 

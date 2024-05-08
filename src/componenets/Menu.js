@@ -21,8 +21,6 @@ const Menu = () => {
                     currentPage: nextPage
                 }
             });
-            
-            console.log("menuclick:",nextPage)
 
             navigate(`/${nextPage}`)
         }
@@ -33,25 +31,25 @@ const Menu = () => {
         { currentPage === 'home' 
             ? <ul style={{boxSizing:'border-box', listStyle:'none', display:'flex', height:'100%', margin:'0', alignItems:'center', justifyContent:'space-around', width:'100%', background:'#deebf7', padding:'10px 20px'}}>
                 {
-                    menus.map((menu) => {
+                    menus.map((menu, idx) => {
                         return(
-                            <li style={{border:'1px solid lightgrey', padding:'10px 20px', background:'white'}} onClick={() => handleMovePage(menu)}>{menu}</li>
+                            <li key={idx + menu} style={{border:'1px solid lightgrey', padding:'10px 20px', background:'white'}} onClick={() => handleMovePage(menu)}>{menu}</li>
                         )
                     })
                 }
               </ul>
             : <ul style={{boxSizing:'border-box', listStyle:'none', display:'flex', height:'100%', margin:'0', alignItems:'center', justifyContent:'space-around', width:'100%', background:'#deebf7', padding:'10px 0px'}}>
                 <div style={{border:'1px solid', display:'flex', justifyContent:'space-around', background:'#fff2cc', width:'450px', padding:'10px 0'}}>
-                    {menus[0].map((menu) => {
+                    {menus[0].map((menu, idx) => {
                         return(
-                            <li style={{border:'1px solid lightgrey', padding:'10px 20px', background:'white', width:'130px'}}>{menu}</li>
+                            <li key={idx + menu} style={{border:'1px solid lightgrey', padding:'10px 20px', background:'white', width:'130px'}}>{menu}</li>
                         )
                     })}
                 </div>
                 <div style={{border:'1px solid', display:'flex', justifyContent:'space-around', background:'#fff2cc', width:'calc(100% - 480px)', padding:'10px 0'}}>
-                    {menus[1].map((menu) => {
+                    {menus[1].map((menu, idx) => {
                         return(
-                            <li style={{border:'1px solid lightgrey', padding:'10px 20px', background:'white', width:'130px'}}>{menu}</li>
+                            <li key={idx + menu} style={{border:'1px solid lightgrey', padding:'10px 20px', background:'white', width:'130px'}}>{menu}</li>
                         )
                     })}
                 </div>

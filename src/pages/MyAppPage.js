@@ -4,7 +4,7 @@ import Menu from '../componenets/Menu'
 
 const MyAppPage = () => {
   return (
-    <div style={{display:'flex', flexDirection:'column', width:'100%', height:'100%', background:'#deebf7', padding:'20px 0' }}>
+    <div style={{display:'flex', flexDirection:'column', width:'100%', height:'100%', background:'#deebf7', padding:'10px 0' }}>
         <Menu />
 
         <div style={{width:'100%', height:'calc(100% - 70px)', display:'flex',  justifyContent:'space-around'}}>

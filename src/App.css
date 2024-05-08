@@ -1,18 +1,15 @@
 .app-container {
   text-align: center;
-  border: 1px solid red;
-  padding: 0 20px;
+  padding: 0 20px 10px 20px;
   background: #f3ffff;
   height: 100%;
 }
 
 .nav-container{
-  border:1px solid blue;
   height: 60px;
 }
 
 .main-container{
-  border: 1px solid;
   height: calc(100% - 60px);
 }
 

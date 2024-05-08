@@ -22,22 +22,22 @@ const SideMenuBar = () => {
                         <div style={{padding:'0 10px'}}>
                             <div style={{padding:'10px', textAlign:'left'}}>
                                 <input type="checkbox" id="scales" name="scales" checked />
-                                <label for="scales" style={{marginLeft:'8px'}}>레이어1</label>
+                                <label htmlFor="scales" style={{marginLeft:'8px'}}>레이어1</label>
                             </div>
                             <div style={{padding:'10px', textAlign:'left'}}>
                                 <input type="checkbox" id="horns" name="horns"  />
-                                <label for="horns" style={{marginLeft:'8px'}}>레이어2</label>
+                                <label htmlFor="horns" style={{marginLeft:'8px'}}>레이어2</label>
                             </div>
                             <div style={{padding:'10px', textAlign:'left'}}>
                                 <input type="checkbox" id="test" name="test"  />
-                                <label for="test" style={{marginLeft:'8px'}}>레이어3</label>
+                                <label htmlFor="test" style={{marginLeft:'8px'}}>레이어3</label>
                             </div>
                         </div>
                     </div>
                 :   <div style={{width:'200px'}}>
-                        { sideMenus.map((menu) => {
+                        { sideMenus.map((menu, idx) => {
                             return(
-                                <button style={{background:'white', width:'100%', margin:'10px 0', height:'40px'}}>{menu}</button>
+                                <button key={idx + menu} style={{background:'white', width:'100%', margin:'10px 0', height:'40px'}}>{menu}</button>
                             )
                         })}
                     </div>

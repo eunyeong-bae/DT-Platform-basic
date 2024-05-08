@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import DropdownMenu from './DropdownMenu';
 import Logo from '../assets/dtp_logo.png'
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const headerStyle = {
     container: {
@@ -19,17 +19,19 @@ const headerStyle = {
     }
 }
 
-const Header = ({rMenu}) => {
-    const [rMenuType, setRMenuType] = useState(null);
+const Header = () => {
     const [currentMenuType, setCurerntMenuType] = useState(false);
+    
+    const currentPage = useSelector(state => state.currentPage);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const handleMenuType = (currMenuType) => {
+    const handleMenuType = () => {
 
-        if(currMenuType === '사용자 관리'){
+        if(currentPage === 'home'){
             setCurerntMenuType((prev) => !prev)
+
         } else {
             dispatch({
                 type:"SET_CURRENT_PAGE",
@@ -42,18 +44,13 @@ const Header = ({rMenu}) => {
         }
     }
 
-    useEffect(() => {
-        setRMenuType(rMenu === 'home' ? '사용자 관리' : '되돌아가기');
-
-    }, [rMenu])
-
   return (
     <div style={headerStyle.container}>
         <img src={Logo} alt='DT 플랫폼 로고' width='120px' height='40px'/>
 
         <li style={headerStyle.list}>
-            <a onClick={() => handleMenuType(rMenuType)}>{rMenuType}</a>
-            { rMenuType === '사용자 관리' && <DropdownMenu currentMenuType={currentMenuType} /> }
+            <a onClick={handleMenuType}>{currentPage === 'home' ? '사용자 관리' : '되돌아가기'}</a>
+            { currentPage === 'home' && <DropdownMenu currentMenuType={currentMenuType} setCurerntMenuType={setCurerntMenuType}/> }
         </li>
     </div>
   )
