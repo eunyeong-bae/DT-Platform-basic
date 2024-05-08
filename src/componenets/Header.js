@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import DropdownMenu from './DropdownMenu';
 import Logo from '../assets/dtp_logo.png'
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 const headerStyle = {
     container: {
@@ -21,18 +22,28 @@ const headerStyle = {
 const Header = ({rMenu}) => {
     const [rMenuType, setRMenuType] = useState(null);
     const [currentMenuType, setCurerntMenuType] = useState(false);
+
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleMenuType = (currMenuType) => {
+
         if(currMenuType === '사용자 관리'){
             setCurerntMenuType((prev) => !prev)
         } else {
+            dispatch({
+                type:"SET_CURRENT_PAGE",
+                payload: {
+                    currentPage: 'home'
+                }
+            })
+
             navigate('/')
         }
     }
 
     useEffect(() => {
-        setRMenuType(rMenu);
+        setRMenuType(rMenu === 'home' ? '사용자 관리' : '되돌아가기');
 
     }, [rMenu])
 

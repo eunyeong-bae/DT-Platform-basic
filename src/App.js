@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Login from './pages/Login';
 import MainPage from './pages/MainPage';
@@ -7,6 +7,7 @@ import ContentsPage from './pages/ContentsPage';
 import MyAppPage from './pages/MyAppPage';
 import StoryAppPage from './pages/StoryAppPage';
 import Header from './componenets/Header';
+import { useDispatch, useSelector } from 'react-redux';
 
 function App() {
   /**
@@ -15,12 +16,14 @@ function App() {
    * 1. currentpage 값에 따른 Header 우 버튼 메뉴 예외 처리
    * 
    */
-  const [isAuthorized, setIsAuthorized ] = useState(true);
+  // const [isAuthorized, setIsAuthorized ] = useState(true);
+
+  const currentPage = useSelector(state => state.currentPage);
 
   return (
     <div  className='app-container'>
       <div className='nav-container'>
-        <Header rMenu='사용자 관리' />
+        <Header rMenu={currentPage} />
       </div>
       
       <div className='main-container'>

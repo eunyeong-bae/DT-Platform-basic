@@ -1,21 +1,36 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 
 
-const Menu = ({currentPage}) => {
-    const menus = currentPage === 'main' ? ['내 콘텐츠 관리','나의 앱','나의 스토리 앱'] : [['파일', '도움말'], ['측정','단면 절단','가시권 분석','3D 객체 위치조정']];
+const Menu = () => {
+    const currentPage = useSelector(state => state.currentPage);
+
+    const menus = currentPage === 'home' ? ['내 콘텐츠 관리','나의 앱','나의 스토리 앱'] : [['파일', '도움말'], ['측정','단면 절단','가시권 분석','3D 객체 위치조정']];
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleMovePage = (page) => {
         const nextPage = page === '내 콘텐츠 관리' ? 'contents' : page === '나의 앱' ? 'myApp' : 'storyApp';
 
-        if(page) navigate(`/${nextPage}`)
+        if(nextPage) {
+            dispatch({
+                type: "SET_CURRENT_PAGE",
+                payload: {
+                    currentPage: nextPage
+                }
+            });
+            
+            console.log("menuclick:",nextPage)
+
+            navigate(`/${nextPage}`)
+        }
     }
 
   return (
     <div style={{ height:'60px', display:'flex', alignItems:'center', marginBottom:'15px'}}>
-        { currentPage === 'main' 
+        { currentPage === 'home' 
             ? <ul style={{boxSizing:'border-box', listStyle:'none', display:'flex', height:'100%', margin:'0', alignItems:'center', justifyContent:'space-around', width:'100%', background:'#deebf7', padding:'10px 20px'}}>
                 {
                     menus.map((menu) => {
