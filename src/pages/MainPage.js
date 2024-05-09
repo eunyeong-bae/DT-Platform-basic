@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Menu from '../componenets/Menu'
-import Header from '../componenets/Header'
-// import Popup from 'reactjs-popup'
 
 const MainPage = () => {
 
@@ -14,7 +12,6 @@ const MainPage = () => {
                 플랫폼 관련 공지사항 임시
             </div>
         </div>
-        {/* <Popup /> */}
     </>
   )
 }

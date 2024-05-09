@@ -6,7 +6,6 @@ const SideMenuBar = () => {
 
     const sideMenus = currentPage === 'contents' ? ['내 서비스 목록 관리','공공 개방 서비스 연계 등록','URL 지정 서비스 연계 등록','공유 관리'] : ['내 스토리 목록 관리', '내 스토리 작성'];
     
-
     return (
         <>
             {

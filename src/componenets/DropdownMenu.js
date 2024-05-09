@@ -1,13 +1,8 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react'
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const menus = ['사용자 등록정보','사용 중인 앱','로그아웃'];
-const dropDownStyle = {
-  ul: {
-    
-  }
-}
 
 const DropdownMenu = ({currentMenuType, setCurerntMenuType}) => {
 

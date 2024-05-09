@@ -1,5 +1,4 @@
 import React from 'react'
-import Header from '../componenets/Header'
 import SideMenuBar from '../componenets/SideMenuBar'
 
 const ContentsPage = () => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import DropdownMenu from './DropdownMenu';
 import Logo from '../assets/dtp_logo.png'
 import { useNavigate } from 'react-router-dom';
