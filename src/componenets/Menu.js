@@ -33,7 +33,7 @@ const Menu = () => {
                 {
                     menus.map((menu, idx) => {
                         return(
-                            <li key={idx + menu} style={{border:'1px solid lightgrey', padding:'10px 20px', background:'white'}} onClick={() => handleMovePage(menu)}>{menu}</li>
+                            <li key={idx + menu} style={{border:'1px solid #EDF1F5', padding:'10px 20px', background:'white', borderRadius:'5px', fontWeight:'bold'}} onClick={() => handleMovePage(menu)}>{menu}</li>
                         )
                     })
                 }

@@ -30,10 +30,15 @@ function reducer(state = initialState, action) {
         case "LOGOUT_SUCCESS":
             return {
                 ...state,
+                currentPage: 'home',
+                modalInfo: {
+                    selectedMenu: null,
+                    isOpenModal: false,
+                },
                 userData: {
                     ...state.userData,
-                    id: action.payload.id,
-                    password: action.payload.password,
+                    id: '',
+                    password: '',
                     authenticate: false,
                 }
             }

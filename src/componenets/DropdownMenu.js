@@ -13,40 +13,27 @@ const DropdownMenu = ({currentMenuType, setCurerntMenuType}) => {
     setCurerntMenuType(false);
     
     if(selectedMenu === '로그아웃'){
-      dispatch({
-        type:"LOGOUT_SUCCESS",
-        payload:{
-          id: '',
-          password: '',
-        }
-      })
+      dispatch({ type:"LOGOUT_SUCCESS" });
 
+      navigate('/login');
+    } else {
       dispatch({
         type:"SET_MODAL_INFO",
         payload: {
-          selectedMenu: null,
-          isOpenModal: false,
+          selectedMenu,
+          isOpenModal: true,
         }
       })
-
-      navigate('/login');
     }
 
-    dispatch({
-      type:"SET_MODAL_INFO",
-      payload: {
-        selectedMenu,
-        isOpenModal: true,
-      }
-    })
   }
 
   return (
     <>
-        <ul style={{listStyle:'none', display: currentMenuType ? 'block' : 'none', zIndex:'3', border:'1px solid', position:'absolute', width:'100%', background:'white', top:'35px'}}>
+        <ul style={{listStyle:'none', display: currentMenuType ? 'block' : 'none', zIndex:'3', position:'absolute', background:'#ffffff', width:'100%',  top:'47px', fontWeight:'bold'}}>
             { menus.map((menu, idx) => {
                 return(
-                    <li key={idx + menu} style={{padding:'15px 5px'}} onClick={() => handleModalPortal(menu)}>{menu}</li>
+                    <li key={idx + menu} style={{padding:'15px 5px', borderBottom:'1px solid'}} onClick={() => handleModalPortal(menu)}>{menu}</li>
                 )
             })}
         </ul>

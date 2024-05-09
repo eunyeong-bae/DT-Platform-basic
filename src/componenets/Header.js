@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import DropdownMenu from './DropdownMenu';
-import Logo from '../assets/dtp_logo.png'
+import Logo from '../assets/company_logo.png'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -14,9 +14,9 @@ const headerStyle = {
     list: {
         listStyle:'none', 
         position:'relative', 
-        width:'140px', 
-        border:'1px solid',
-    }
+        width:'160px', 
+    },
+    
 }
 
 const Header = () => {
@@ -46,10 +46,10 @@ const Header = () => {
 
   return (
     <div style={headerStyle.container}>
-        <img src={Logo} alt='DT 플랫폼 로고' width='120px' height='40px'/>
+        <img src={Logo} alt='DT 플랫폼 로고' width='150px' height='50px' style={{padding:'3px 5px'}}/>
 
         <li style={headerStyle.list}>
-            <a onClick={handleMenuType}>{currentPage === 'home' ? '사용자 관리' : '되돌아가기'}</a>
+            <p style={{height:'45px', alignContent:'center', color:'#ffffff', border:'1px solid #EDF1F5', borderRadius:'5px', fontWeight:'bold'}} onClick={handleMenuType}>{currentPage === 'home' ? '사용자 관리' : '되돌아가기'}</p>
             { currentPage === 'home' && <DropdownMenu currentMenuType={currentMenuType} setCurerntMenuType={setCurerntMenuType}/> }
         </li>
     </div>
