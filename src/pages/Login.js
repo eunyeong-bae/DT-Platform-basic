@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -52,6 +52,10 @@ const Login = () => {
 
         navigate('/')
     }
+
+    useEffect(() => {
+        console.log("access")
+    }, [])
 
   return (
     <div style={{background:'#f3ffff', height:'100vh', display:'flex', flexDirection:'column', justifyContent:'center'}}>
