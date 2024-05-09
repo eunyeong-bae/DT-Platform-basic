@@ -1,7 +1,8 @@
 .app-container {
   text-align: center;
   padding: 0 20px 10px 20px;
-  background: #f3ffff;
+  background-image: url('./assets/company_bg.png');
+  width: 100%;
   height: 100%;
 }
 
