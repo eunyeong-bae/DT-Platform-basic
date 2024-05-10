@@ -13,6 +13,7 @@ let initialState = {
         email: 'adcadcad@naver.com',
         phone: '010-1234-5678',
     },
+    assets: []
 }
 
 function reducer(state = initialState, action) {
@@ -54,6 +55,11 @@ function reducer(state = initialState, action) {
                     selectedMenu: action.payload.selectedMenu,
                     isOpenModal: action.payload.isOpenModal,
                 }
+            }
+        case "GET_ASSETS_SUCCESS":
+            return {
+                ...state,
+                assets : action.payload.assets
             }
         default:
             return {...state};
