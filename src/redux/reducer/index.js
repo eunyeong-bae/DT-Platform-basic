@@ -17,7 +17,8 @@ let initialState = {
         email: 'adcadcad@naver.com',
         phone: '010-1234-5678',
     },
-    assets: []
+    myAssetDatas: [],
+    addServiceLists: [],
 }
 
 function reducer(state = initialState, action) {
@@ -50,7 +51,8 @@ function reducer(state = initialState, action) {
                     password: '',
                     authenticate: false,
                 },
-                assets: []
+                myAssetDatas: [],
+                addServiceLists: [],
             }
         case "SET_CURRENT_PAGE":
             return {
@@ -76,7 +78,12 @@ function reducer(state = initialState, action) {
         case "GET_ASSETS_SUCCESS":
             return {
                 ...state,
-                assets : action.payload.assets
+                myAssetDatas : action.payload.myAssetDatas
+            }
+        case "ADD_SERVICE_LISTS":
+            return {
+                ...state,
+                addServiceLists: [...state.addServiceLists, action.payload.serviceList]
             }
         default:
             return {...state};

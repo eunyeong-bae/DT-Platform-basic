@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 
 //홈 메뉴와 나의 앱 페이지 메뉴용
-const Menu = () => {
+const NavBarMenu = () => {
     const currentPage = useSelector(state => state.currentPage);
 
     const menus = currentPage === 'home' ? 
@@ -87,4 +87,4 @@ const Menu = () => {
   )
 }
 
-export default Menu
+export default NavBarMenu

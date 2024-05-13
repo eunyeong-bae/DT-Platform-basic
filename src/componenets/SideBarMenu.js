@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import DropdownMenu from './DropdownMenu';
 
 //나의 콘텐츠 관리와 나의 스토리 앱 하단 서브메뉴용 
-const SideMenuBar = () => {
+const SideBarMenu = () => {
     const subBarMenuInfo = useSelector(state => state.subBarMenuInfo);
 
     const currentPage = useSelector(state => state.currentPage);
@@ -59,4 +59,4 @@ const SideMenuBar = () => {
     )
 }
 
-export default SideMenuBar
+export default SideBarMenu

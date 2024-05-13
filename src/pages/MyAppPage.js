@@ -1,10 +1,10 @@
 import React from 'react'
-import Menu from '../componenets/Menu'
+import NavBarMenu from '../componenets/NavBarMenu'
 
 const MyAppPage = () => {
   return (
     <div style={{display:'flex', flexDirection:'column', width:'100%', height:'100%', background:'#deebf7', padding:'10px 0' }}>
-        <Menu />
+        <NavBarMenu />
 
         <div style={{width:'100%', height:'calc(100% - 70px)', display:'flex',  justifyContent:'space-around'}}>
             <div  style={{width:'200px', border:'1px solid', background:'#fff2cc'}}>

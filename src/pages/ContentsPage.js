@@ -1,24 +1,25 @@
 import React, { useEffect } from 'react'
-import SideMenuBar from '../componenets/SideMenuBar'
+import SideBarMenu from '../componenets/SideBarMenu'
 import { getAssetLists } from '../redux/action/assetsAction';
-import axios from 'axios';
 import { getAssets } from '../api/assets';
 import { useDispatch, useSelector } from 'react-redux';
+import MyServiceAddPage from './myServiceListPages/MyServiceAddPage';
+import MyServiceSelectPage from './myServiceListPages/MyServiceSelectPage';
 
 const ContentsPage = () => {
+  const subBarMenuInfo = useSelector(state => state.subBarMenuInfo);
+  const myAssetDatas = useSelector(state => state.myAssetDatas);
+  
   const dispatch = useDispatch();
-
-  const assets = useSelector(state => state.assets);
 
   useEffect(() => {
     axiosTest();
     // dispatch(getAssetLists());
   }, []);
-
-
-  useEffect(() => {
-    console.log("confirm", assets)
-  }, [assets])
+  
+  // useEffect(() => {
+  //   console.log("confirm", myAssetDatas)
+  // }, [myAssetDatas, subBarMenuInfo])
 
   const axiosTest = async() => {
     const res = await getAssets();
@@ -26,16 +27,21 @@ const ContentsPage = () => {
     // const res = await getAssetLists();
     // console.log("test", res)
     if(res) {
-      dispatch({type:"GET_ASSETS_SUCCESS", payload:{assets: res.items}})
+      dispatch({type:"GET_ASSETS_SUCCESS", payload:{myAssetDatas: res.items}})
     }
   }
 
   return (
-    <div style={{width:'100%', height:'100%', background:'#deebf7', display:'flex', justifyContent:'space-between', padding:'10px 5px'}}>
-      <SideMenuBar />
+    <div style={{width:'100%', height:'100%', display:'flex', justifyContent:'space-between', padding:'10px 5px',}}> 
+      <SideBarMenu />
       
-      <div style={{border:'1px solid', width:'calc(100% - 240px)'}}>
-          content
+      <div style={{borderLeft:'1px solid #fff', width:'calc(100% - 240px)', padding:'20px'}}>
+        {
+          subBarMenuInfo?.selectedSubMenu === '내 서비스 목록 추가' ? 
+            <MyServiceAddPage />
+          : 
+            <MyServiceSelectPage />
+        }
       </div>
     </div>
   )
