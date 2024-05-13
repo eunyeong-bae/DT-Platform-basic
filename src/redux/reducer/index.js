@@ -1,8 +1,12 @@
 let initialState = {
     currentPage: 'home',
+    subBarMenuInfo: {
+        isSubMenuOpen: false,
+        selectedSubMenu: null,
+    },
     modalInfo: {
+        isModalOpen: false,
         selectedMenu: null,
-        isOpenModal: false,
     },
     userData: {
         id:'',
@@ -32,16 +36,21 @@ function reducer(state = initialState, action) {
             return {
                 ...state,
                 currentPage: 'home',
+                subBarMenuInfo: {
+                    isSubMenuOpen: false,
+                    selectedSubMenu: null,
+                },
                 modalInfo: {
                     selectedMenu: null,
-                    isOpenModal: false,
+                    isModalOpen: false,
                 },
                 userData: {
                     ...state.userData,
                     id: '',
                     password: '',
                     authenticate: false,
-                }
+                },
+                assets: []
             }
         case "SET_CURRENT_PAGE":
             return {
@@ -53,7 +62,15 @@ function reducer(state = initialState, action) {
                 ...state,
                 modalInfo: {
                     selectedMenu: action.payload.selectedMenu,
-                    isOpenModal: action.payload.isOpenModal,
+                    isModalOpen: action.payload.isModalOpen,
+                }
+            }
+        case "SET_SUBBAR_INFO":
+            return {
+                ...state,
+                subBarMenuInfo: {
+                    isSubMenuOpen: action.payload.isSubMenuOpen,
+                    selectedSubMenu: action.payload?.selectedSubMenu,
                 }
             }
         case "GET_ASSETS_SUCCESS":

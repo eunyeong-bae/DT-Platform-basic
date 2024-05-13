@@ -8,24 +8,24 @@ import { Navigate } from 'react-router-dom';
 
 const PrivatePage = ({page}) => {
 
-  let currentPage = '';
+  let returnPage = '';
   const authenticate = useSelector(state => state.userData.authenticate); 
 
   switch(page){
     case "Contents":
-        currentPage = <ContentsPage />
+      returnPage = <ContentsPage />
       break;
     case "MyApp":
-        currentPage = <MyAppPage />
+      returnPage = <MyAppPage />
       break;
     case "StoryApp":
-        currentPage = <StoryAppPage />
+      returnPage = <StoryAppPage />
       break;
     default:
-        currentPage = <MainPage />
+      returnPage = <MainPage />
       break;
   }
-  return authenticate ? currentPage : <Navigate to="/login" />;
+  return authenticate ? returnPage : <Navigate to="/login" />;
 }
 
 export default PrivatePage

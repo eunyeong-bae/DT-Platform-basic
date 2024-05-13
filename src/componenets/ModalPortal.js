@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux'
 
 const ModalPortal = () => {
-    const {selectedMenu, isOpenModal} = useSelector(state => state.modalInfo);
+    const {selectedMenu, isModalOpen} = useSelector(state => state.modalInfo);
     
     const dispatch = useDispatch();
 
@@ -12,7 +12,7 @@ const ModalPortal = () => {
             type: "SET_MODAL_INFO",
             payload: {
                 selectedMenu: null,
-                isOpenModal: false,
+                isModalOpen: false,
             }
         })    
     }
@@ -20,7 +20,7 @@ const ModalPortal = () => {
   return (
     <div>
         {
-            isOpenModal && createPortal(
+            isModalOpen && createPortal(
                 <ModalContent selectedMenu={selectedMenu} onClose={onClose} />, document.body
             )
         }
