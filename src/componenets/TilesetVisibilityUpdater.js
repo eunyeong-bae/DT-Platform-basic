@@ -8,7 +8,7 @@ const TilesetVisibilityUpdater = ({ layers, setTilesets }) => {
   
   const loadTileset = async (assetId) => {
     const viewer = new Viewer("cesiumContainer", {
-      terrainProvider: await Cesium.CesiumTerrainProvider.fromIonAssetId(
+      terrainProvider: await CesiumTerrainProvider.fromIonAssetId(
         1,
       )
     });
