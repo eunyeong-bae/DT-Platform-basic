@@ -8,7 +8,6 @@ import MyServiceSelectPage from './myServiceListPages/MyServiceSelectPage';
 
 const ContentsPage = () => {
   const subBarMenuInfo = useSelector(state => state.subBarMenuInfo);
-  const myAssetDatas = useSelector(state => state.myAssetDatas);
   
   const dispatch = useDispatch();
 
@@ -16,10 +15,6 @@ const ContentsPage = () => {
     axiosTest();
     // dispatch(getAssetLists());
   }, []);
-  
-  // useEffect(() => {
-  //   console.log("confirm", myAssetDatas)
-  // }, [myAssetDatas, subBarMenuInfo])
 
   const axiosTest = async() => {
     const res = await getAssets();

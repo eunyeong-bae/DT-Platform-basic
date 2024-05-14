@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import GoogleLogin from '../assets/google_login.png'
@@ -98,10 +98,6 @@ const Login = () => {
     const handleSNSLogin = () => {
         alert("곧 서비스가 오픈됩니다.");
     };
-
-    // useEffect(() => {
-    //     console.log("access")
-    // }, [])
 
     const handleInputData = (targetVal, type) => {
         if (type === 'userId') {

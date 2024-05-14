@@ -5,14 +5,9 @@ import Header from './componenets/Header';
 import Login from './pages/Login';
 import PrivatePage from './pages/PrivatePage';
 import ModalPortal from './componenets/ModalPortal';
-import { useEffect } from 'react';
 
 function App() {
   const authenticate = useSelector(state => state.userData.authenticate); 
-
-  useEffect(() => {
-    console.log("test", authenticate)
-  }, [authenticate] )
 
   return (
     <div className='app-container'>

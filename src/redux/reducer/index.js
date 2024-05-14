@@ -18,7 +18,20 @@ let initialState = {
         phone: '010-1234-5678',
     },
     myAssetDatas: [],
-    addServiceLists: [],
+    addServiceLists: [
+        //my assets 데이터에서 사용자가 선택한 데이터 저장소
+        //현재 임의의 데이터 삽입
+        { id: 1, name: 'Cesium World Terrain', type: 'TERRAIN', dateAdded: '2024-05-10' },
+        { id: 2, name: 'Bing Maps Aerial', type: 'IMAGERY', dateAdded: '2024-05-10' },
+        { id: 3, name: 'Bing Maps Aerial with Labels', type: 'IMAGERY', dateAdded: '2024-05-10' },
+        { id: 4, name: 'Bing Maps Road', type: 'IMAGERY', dateAdded: '2024-05-10' },
+        { id: 96188, name: 'Cesium OSM Buildings', type: '3DTILES', dateAdded: '2024-05-10' },
+        { id: 2275207, name: 'Google Photorealistic 3D Tiles', type: '3DTILES', dateAdded: '2024-05-10' },
+        { id: 2562681, name: '3dmodel_citygml', type: '3DTILES', dateAdded: '2024-05-10' },
+        { id: 2562865, name: 'new_building_denver', type: 'GEOJSON', dateAdded: '2024-05-10' },
+        { id: 2562911, name: 'PSFS', type: '3DTILES', dateAdded: '2024-05-10' }
+    ],
+    
 }
 
 function reducer(state = initialState, action) {
