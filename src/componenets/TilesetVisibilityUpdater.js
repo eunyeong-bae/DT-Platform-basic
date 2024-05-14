@@ -7,8 +7,12 @@ Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxMGFlM
 const TilesetVisibilityUpdater = ({ layers, setTilesets }) => {
   
   const loadTileset = async (assetId) => {
-    const viewer = new Viewer("cesiumContainer");
-    // viewer.scene.globe.depthTestAgainstTerrain = true;
+    const viewer = new Viewer("cesiumContainer", {
+      terrainProvider: await Cesium.CesiumTerrainProvider.fromIonAssetId(
+        1,
+      )
+    });
+    viewer.scene.globe.depthTestAgainstTerrain = true;
     
     try {
       const tileset = await Cesium3DTileset.fromIonAssetId(assetId);
