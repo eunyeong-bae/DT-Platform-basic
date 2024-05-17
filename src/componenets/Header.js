@@ -69,10 +69,9 @@ const headerStyle = {
     rMenuTitle: {
         height:'45px', 
         alignContent:'center', 
-        color:'#ffffff', 
-        border:'1px solid #EDF1F5',
-         borderRadius:'5px', 
-         fontWeight:'bold'
+        borderRadius:'5px', 
+        fontWeight:'bold',
+        background:'#ffffff'
     }
     
 };

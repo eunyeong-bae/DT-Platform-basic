@@ -10,7 +10,7 @@ function App() {
   const authenticate = useSelector(state => state.userData.authenticate); 
 
   return (
-    <div className='app-container'>
+    <div className={`app-container ${ !authenticate && 'loginStyle'} `}>
       {
         authenticate && 
         <div className='nav-container'>

@@ -1,19 +1,23 @@
-.app-container {
-  text-align: center;
-  padding: 0 20px 10px 20px;
-  background-image: url('./assets/company_bg.png');
-  width: 100%;
-  height: 100%;
+.loginStyle {
   position: relative;
   isolation: isolate;
+  background-image: url('./assets/company_bg.png');
 }
-.app-container::after {
+.loginStyle::after {
   content: '';
   position: absolute;
-  background: white;
+  background-color: #ffffff;
   z-index: -1;
   inset: 0;
   opacity: 0.2;
+}
+
+.app-container {
+  text-align: center;
+  padding: 0 20px 10px 20px;
+  width: 100%;
+  height: 100%;
+  background-color: #f3ffff;
 }
 
 .nav-container{
@@ -27,6 +31,9 @@
 *{
   margin: 0;
   padding: 0;
+  list-style: none;
+  color: #2d3a42;
+  font-size: 15px;
 }
 
 /* 

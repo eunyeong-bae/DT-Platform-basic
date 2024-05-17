@@ -38,13 +38,11 @@ const SideBarMenu = () => {
     }
 
     return (
-        <ul style={{width:'200px', listStyle:'none', color:'#fff'}}>
-            <h3 style={{padding:'15px', borderBottom: '1px solid #EEE',}}>메뉴</h3>
-
+        <ul style={{width:'200px'}}>
             { sideMenus.map((menu, idx) => {
                 return(
                     <li key={idx + menu} 
-                        style={{border: '1px solid #EEE', width:'100%', padding:'15px', margin:'10px 0', boxSizing:'border-box',background:'rgb(56, 117, 167)'}}
+                        style={{border: '1px solid #EEE', width:'100%', padding:'15px', margin:'10px 0', boxSizing:'border-box',background:'#ffffff'}}
                         onClick={() => onClickSideBarMenu(menu)}
                     >
                         <strong>{menu}</strong>

@@ -64,7 +64,7 @@ const DropdownMenu = () => {
               })}
           </ul>
         :
-          <ul style={{listStyle:'none', zIndex:'3', position:'absolute', left:'250px', height:'auto', top:'130px', border:'1px solid', width:'200px', fontWeight:'bold', background:'rgb(56, 117, 167)'}}>
+          <ul style={{listStyle:'none', zIndex:'3', position:'absolute', left:'250px', height:'auto', top:'130px', border:'1px solid', width:'200px', fontWeight:'bold', background:'#ffffff'}}>
             { menus.map((menu, idx) => {
                 return(
                     <li key={idx + menu} 

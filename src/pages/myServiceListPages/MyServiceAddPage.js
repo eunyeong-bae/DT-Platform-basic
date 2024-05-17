@@ -4,10 +4,9 @@ import AddServiceMenu from '../../componenets/AddServiceMenu'
 const MyServiceAddPage = () => {
     
   return (
-    <>    
+    <div style={{height:'100%'}}>    
         <AddServiceMenu />
-        dfsfd
-    </>
+    </div>
   )
 }
 
