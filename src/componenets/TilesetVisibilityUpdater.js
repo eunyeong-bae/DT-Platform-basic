@@ -1,13 +1,36 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Ion, Viewer, Cesium3DTileset, Cesium3DTileStyle, defined, CesiumTerrainProvider, Terrain } from 'cesium';
 import "cesium/Build/Cesium/Widgets/widgets.css";
-import useViewerRef from '../hooks/useViewerRef';
 
+window.CESIUM_BASE_URL = '/static/Cesium/';
 Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxMGFlMjAxNi1iMWJhLTRkN2MtOTYzYy1iMGY2YTc5Yzg1YTkiLCJpZCI6MjEyNjkyLCJpYXQiOjE3MTUzMDI0MDJ9.s678GHASYCJ8H8fyyTb79jsnFaDrWh-o7Xe8ig0XDqs';
 
 const TilesetVisibilityUpdater = ({ layers, setTilesets }) => {
-  const {viewerRef} = useViewerRef();
   
+  const viewerRef = useRef(null);
+  
+  const TilesetViewer = async() => {
+    const viewer = new Viewer ("cesiumContainer", {
+            terrainProvider: await CesiumTerrainProvider.fromIonAssetId(
+            1,
+        )
+    });
+    viewer.scene.globe.depthTestAgainstTerrain = true;
+  
+    return viewer;
+  };
+
+
+  useEffect(() => {
+    const initializeViewer = async() => {
+    const viewer = await TilesetViewer();
+    viewerRef.current = viewer;
+    };
+
+    initializeViewer();
+  }, [])
+
+
   const loadTileset = async (assetId) => {
     // const viewer = new Viewer("cesiumContainer", {
     //   terrainProvider: await CesiumTerrainProvider.fromIonAssetId(
@@ -18,7 +41,7 @@ const TilesetVisibilityUpdater = ({ layers, setTilesets }) => {
     
     try {
       const tileset = await Cesium3DTileset.fromIonAssetId(assetId);
-      console.log("djflsjfksldfjklsjfklsdjfklsdjfklsd", tileset)
+      // console.log("djflsjfksldfjklsjfklsdjfklsdjfklsd", tileset)
       viewerRef.current.scene.primitives.add(tileset);
       await viewerRef.current.zoomTo(tileset);
       // viewer.scene.primitives.add(tileset);

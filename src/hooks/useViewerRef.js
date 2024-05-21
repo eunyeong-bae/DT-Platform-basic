@@ -1,5 +1,8 @@
 import { useEffect, useRef } from "react";
 import { CesiumTerrainProvider, Viewer } from "cesium";
+import "cesium/Build/Cesium/Widgets/widgets.css";
+
+window.CESIUM_BASE_URL = '/static/Cesium/';
 
 //viewer 하나만 띄우고 유지하기 위해서
 const useViewerRef = () => {
