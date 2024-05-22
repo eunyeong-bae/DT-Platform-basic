@@ -1,4 +1,13 @@
-let initialState = {
+const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
+const SET_MODAL_INFO = "SET_MODAL_INFO";
+const SET_SUBBAR_INFO = "SET_SUBBAR_INFO";
+const GET_ASSETS_SUCCESS = "GET_ASSETS_SUCCESS";
+const ADD_SERVICE_LISTS = "ADD_SERVICE_LISTS";
+const REMOVE_SERVICE_LISTS = "REMOVE_SERVICE_LISTS";
+
+const initialState = {
     currentPage: 'home',
     subBarMenuInfo: {
         isSubMenuOpen: false,
@@ -9,8 +18,8 @@ let initialState = {
         selectedMenu: null,
     },
     userData: {
-        id:'',
-        password:'',
+        id: '',
+        password: '',
         authenticate: false,
         userName: 'eunyeong',
         company: '신한항업',
@@ -18,25 +27,12 @@ let initialState = {
         phone: '010-1234-5678',
     },
     myAssetDatas: [],
-    addServiceLists: [
-        //my assets 데이터에서 사용자가 선택한 데이터 저장소
-        //현재 임의의 데이터 삽입
-        { id: 1, name: 'Cesium World Terrain', type: 'TERRAIN', dateAdded: '2024-05-10' },
-        { id: 2, name: 'Bing Maps Aerial', type: 'IMAGERY', dateAdded: '2024-05-10' },
-        { id: 3, name: 'Bing Maps Aerial with Labels', type: 'IMAGERY', dateAdded: '2024-05-10' },
-        { id: 4, name: 'Bing Maps Road', type: 'IMAGERY', dateAdded: '2024-05-10' },
-        { id: 96188, name: 'Cesium OSM Buildings', type: '3DTILES', dateAdded: '2024-05-10' },
-        { id: 2275207, name: 'Google Photorealistic 3D Tiles', type: '3DTILES', dateAdded: '2024-05-10' },
-        { id: 2562681, name: '3dmodel_citygml', type: '3DTILES', dateAdded: '2024-05-10' },
-        { id: 2562865, name: 'new_building_denver', type: 'GEOJSON', dateAdded: '2024-05-10' },
-        { id: 2562911, name: 'PSFS', type: '3DTILES', dateAdded: '2024-05-10' }
-    ],
-    
-}
+    addServiceLists: [], // 내 콘텐츠 관리 데이터 = 내 서비스 목록 선택 + 공공 개방 + URL
+};
 
 function reducer(state = initialState, action) {
-    switch(action.type){
-        case "LOGIN_SUCCESS":
+    switch (action.type) {
+        case LOGIN_SUCCESS:
             return {
                 ...state,
                 userData: {
@@ -44,9 +40,9 @@ function reducer(state = initialState, action) {
                     id: action.payload.id,
                     password: action.payload.password,
                     authenticate: true,
-                }
-            }
-        case "LOGOUT_SUCCESS":
+                },
+            };
+        case LOGOUT_SUCCESS:
             return {
                 ...state,
                 currentPage: 'home',
@@ -66,40 +62,47 @@ function reducer(state = initialState, action) {
                 },
                 myAssetDatas: [],
                 addServiceLists: [],
-            }
-        case "SET_CURRENT_PAGE":
+            };
+        case SET_CURRENT_PAGE:
             return {
                 ...state,
-                currentPage: action.payload.currentPage
-            }
-        case "SET_MODAL_INFO":
+                currentPage: action.payload.currentPage,
+            };
+        case SET_MODAL_INFO:
             return {
                 ...state,
                 modalInfo: {
                     selectedMenu: action.payload.selectedMenu,
                     isModalOpen: action.payload.isModalOpen,
-                }
-            }
-        case "SET_SUBBAR_INFO":
+                },
+            };
+        case SET_SUBBAR_INFO:
             return {
                 ...state,
                 subBarMenuInfo: {
                     isSubMenuOpen: action.payload.isSubMenuOpen,
-                    selectedSubMenu: action.payload?.selectedSubMenu,
-                }
-            }
-        case "GET_ASSETS_SUCCESS":
+                    selectedSubMenu: action.payload.selectedSubMenu,
+                },
+            };
+        case GET_ASSETS_SUCCESS:
             return {
                 ...state,
-                myAssetDatas : action.payload.myAssetDatas
-            }
-        case "ADD_SERVICE_LISTS":
+                myAssetDatas: action.payload.myAssetDatas,
+            };
+        case ADD_SERVICE_LISTS:
+            //중복 선택 방지
+            const exists = state.addServiceLists.some(service => service.id === action.payload.serviceList.id);
             return {
                 ...state,
-                addServiceLists: [...state.addServiceLists, action.payload.serviceList]
-            }
+                addServiceLists: exists ? state.addServiceLists : [...state.addServiceLists, action.payload.serviceList],
+            };
+        case REMOVE_SERVICE_LISTS:
+            return {
+                ...state,
+                addServiceLists: action.payload.newServiceLists,
+            };
         default:
-            return {...state};
+            return state;
     }
 }
 

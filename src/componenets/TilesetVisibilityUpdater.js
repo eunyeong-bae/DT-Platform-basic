@@ -11,7 +11,7 @@ const TilesetVisibilityUpdater = ({ viewer, layer }) => {
     const updateTileset = async () => {
       if (!viewer) return;
 
-      if (layer.checked) {
+      if (layer?.checked) {
         // 레이어가 체크된 경우 타일셋을 추가
         try {
           const newTileset = await Cesium3DTileset.fromIonAssetId(layer.id);

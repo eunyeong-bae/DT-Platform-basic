@@ -1,29 +1,58 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 const tableStyle = {
     content: {
         border:'1px solid', 
         padding:'10px 0',
         height:'35px', 
-        width:'100px' 
+        width:'130px', 
+    },
+    selectedRow: {
+        display:'flex',
+        flexDirection: 'row',
+        alignContent:'center'
     }
 }
-
-//내 콘텐츠 관리와 나의 앱 페이지 용(분기 처리 필요)
 const MyServiceListTable = (props) => {
     const {serviceLayers, setServiceLayers} = props;
-
-    // const currentPage = useSelector(state => state.currentPage);
-    const addServiceLists = useSelector(state => state.addServiceLists);
-
-    const onClickAddLayer = (layer) => {
-        setServiceLayers([...serviceLayers, layer]);
-    }
+    const [selectedDelBtn, setSelectedDelBtn] = useState(null);
     
-    useEffect(() => {
-        // console.log("after adding layers :", serviceLayers)
-    }, [serviceLayers])
+    const currentPage = useSelector(state => state.currentPage);
+    const addServiceLists = useSelector(state => state.addServiceLists);
+    
+    const dispatch = useDispatch();
+    
+    const onClickAddLayer = (selectLayer) => {
+        //내 콘텐츠 관리와 나의 앱 페이지 로직 분기
+        if(currentPage === 'contents'){
+            const updatedLayer = { ...selectLayer, checked: serviceLayers?.checked ? !serviceLayers.checked : true};
+    
+            setServiceLayers(updatedLayer)
+
+        } else if(currentPage === 'myApp'){
+            setServiceLayers([...serviceLayers, selectLayer]);
+        }
+        
+    }
+
+    const onMouseOverEvent = (layerId) => {
+        setSelectedDelBtn(layerId)
+    }
+
+    const onDeleteLayer = (layer) => {
+        const newServiceLists = [...addServiceLists];
+        newServiceLists = newServiceLists.filter(data => data.id !== layer.id);
+        
+        if(layer) {
+            dispatch({
+                type:"REMOVE_SERVICE_LISTS",
+                payload: {
+                    newServiceLists
+                }
+            })
+        }
+    }
 
   return (
     <table style={{background:'#fff', borderCollapse:'collapse', margin:'5px'}}>
@@ -39,11 +68,22 @@ const MyServiceListTable = (props) => {
             {
                 addServiceLists?.map((data) => {
                     return (
-                        <tr key={data.id + data.name} onClick={() => onClickAddLayer(data)}>
+                        <tr key={data.id + data.name} 
+                            onClick={() => onClickAddLayer(data)} 
+                            onMouseEnter={() => onMouseOverEvent(data.id)}
+                            onMouseLeave={() => onMouseOverEvent(null)}
+                        >
                             <td style={tableStyle.content}>{data.id}</td>
                             <td style={tableStyle.content}>{data.name}</td>
                             <td style={tableStyle.content}>{data.type}</td>
-                            <td style={tableStyle.content}>{data.dateAdded.split('T')[0]}</td>
+                            <td style={{border:'1px solid', height:'35px', padding:'10px 0', position:'relative'}}>
+                                {data.dateAdded?.split('T')[0]}
+                                {
+                                    selectedDelBtn === data.id && 
+                                    <p style={{border:'1px solid red', position:'absolute', zIndex:'5', top:'0', right:'50px', }} 
+                                        onClick={() => onDeleteLayer(data)}>삭제</p>
+                                }
+                            </td>
                         </tr>
                     )
                 })
