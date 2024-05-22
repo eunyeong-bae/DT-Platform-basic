@@ -8,7 +8,7 @@ Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxMGFlM
 const styles = {
   container: {
       width: '500px',
-      height: '440px',
+      height: 'fit-content',
       background: '#ffffff',
   },
   header: {
@@ -19,7 +19,7 @@ const styles = {
       justifyContent: 'center',
   },
   cesiumContainer: {
-      height: 'calc(100% - 40px)',
+      height: '350px',
   },
   contentContainer: {
       height: '300px',
@@ -31,7 +31,7 @@ const styles = {
       alignItems: 'center',
   },
   content: {
-      height: 'calc(100% - 40px)',
+      height: 'calc(100% - 35px)',
       width: '100%',
       padding: '10px',
   },
@@ -55,7 +55,7 @@ const AssetPreview = ({currentPage, layer}) => {
 
   return (
       <div style={styles.container}>
-          <p style={styles.header}>서비스 이름</p>
+          <p style={styles.header}>{layer ? layer.name : 'Cesium World Terrain'}</p>
           <div id="cesiumContainer" style={styles.cesiumContainer}>
               <TilesetVisibilityUpdater viewer={viewerRef.current} layer={layer} />
           </div>
@@ -63,8 +63,10 @@ const AssetPreview = ({currentPage, layer}) => {
               <div style={styles.contentContainer}>
                   <button>내용 수정</button>
                   <div style={styles.content}>
-                      <h2>제목</h2>
-                      <p>내용</p>
+                      <p>제목 : {layer? layer.name : 'Cesium World Terrain'}</p>
+                      <p>내용 : {layer? layer.description : ''}</p>
+                      <p>타입 : {layer? layer.type : ''}</p>
+                      <p>날짜 : {layer? layer.dateAdded.split('T')[0] : ''}</p>
                   </div>
               </div>
           )}

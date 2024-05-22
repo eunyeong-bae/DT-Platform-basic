@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const styles = {
     container: {
-        border: '1px solid pink',
+        border: '1px solid',
         width: '400px',
         height: '350px',
     },

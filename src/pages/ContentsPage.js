@@ -30,7 +30,7 @@ const ContentsPage = () => {
     <div style={{width:'100%', height:'100%', display:'flex', justifyContent:'space-between', padding:'10px 5px',}}> 
       <SideBarMenu />
       
-      <div style={{borderLeft:'1px solid #fff', width:'calc(100% - 240px)', padding:'20px'}}>
+      <div style={{borderLeft:'1px solid #fff', width:'calc(100% - 240px)', height:'calc(100% - 70px)', padding:'20px'}}>
         {
           subBarMenuInfo?.selectedSubMenu === '내 서비스 목록 추가' ? 
             <MyServiceAddPage />
