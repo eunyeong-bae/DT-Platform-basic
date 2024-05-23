@@ -4,10 +4,17 @@ import MyServiceListTable from '../componenets/MyServiceListTable';
 import TilesetVisibilityUpdater from '../componenets/TilesetVisibilityUpdater';
 import { Ion, Viewer, CesiumTerrainProvider } from 'cesium';
 import "cesium/Build/Cesium/Widgets/widgets.css";
+import TilesetCompareUpdater from '../componenets/TilesetCompareUpdater';
+import './style/style.css';
 
 Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxMGFlMjAxNi1iMWJhLTRkN2MtOTYzYy1iMGY2YTc5Yzg1YTkiLCJpZCI6MjEyNjkyLCJpYXQiOjE3MTUzMDI0MDJ9.s678GHASYCJ8H8fyyTb79jsnFaDrWh-o7Xe8ig0XDqs';
 
 const MyAppPage = () => {
+    const [isClickSplitViewBtn, setIsClickSplitViewBtn] = useState(false); //화면분할 버튼 클릭 체크용
+    const [isSplitViewOpen, setIsSplitViewOpen] = useState(false); //화면분할 닫기 체크용
+    const [splitViewLayers, setSplitViewLayers] = useState([]);//1차 서비스 레이어에서 선택한 레이어 중 체크박스한 서비스 레이어 데이터
+    const [selectLayer, setSelectLayer] = useState(null); //화면분할 보기로 선택된 레이어
+
     const [layerTable, setLayerTable] = useState(false); // 테이블 on/off 상태
     const [serviceLayers, setServiceLayers] = useState([]); // 선택한 서비스 레이어 데이터
     const [changedLayer, setChangedLayer] = useState(null); // 변경된 레이어 정보
@@ -15,10 +22,10 @@ const MyAppPage = () => {
 
     const onClickAddLayer = () => setLayerTable(prev => !prev);
 
-    const handleLayer = (id) => {
+    const handleLayer = (selectLayer) => {
         setServiceLayers(prevLayers =>
             prevLayers.map(layer => {
-                if (layer.id === id) {
+                if (layer.id === selectLayer.id) {
                     const updatedLayer = { ...layer, checked: !layer.checked };
                     setChangedLayer(updatedLayer);
                     return updatedLayer;
@@ -26,7 +33,49 @@ const MyAppPage = () => {
                 return layer;
             })
         );
+
+        setSplitViewLayers([...splitViewLayers, selectLayer]);
     };
+
+    const onChangeLayer = (selectLayer) => {
+        setSplitViewLayers(prevLayers =>
+            prevLayers.map(layer => {
+                if (layer.id === selectLayer.id) {
+                    const updatedLayer = { ...layer, checked: !layer.checked };
+                    setSelectLayer(updatedLayer);
+                    return updatedLayer;
+                }
+                return layer;
+            })
+        );
+    }
+
+    const resetViewer = () => {
+        if (viewerRef.current) {
+            viewerRef.current.scene.primitives.removeAll();
+        }
+    };
+
+    const onClickSplitView = () => {
+        if(isSplitViewOpen){
+            setSplitViewLayers(prevLayers =>
+                prevLayers.map(layer => {
+                    if (layer?.checked) {
+                        const updatedLayer = { ...layer, checked: !layer.checked };
+                        setSelectLayer(updatedLayer);
+                        return updatedLayer;
+                    }
+                    return layer;
+                })
+            );
+            
+            resetViewer(); // Reset the viewer when closing the split view
+        }
+
+        setIsClickSplitViewBtn(prev => !prev);
+
+        setIsSplitViewOpen(prev => !prev);
+    }
 
     useEffect(() => {
         // 뷰어 초기화
@@ -63,7 +112,7 @@ const MyAppPage = () => {
                                     id={`layer-${layer.id}`}
                                     name={`layer-${layer.id}`}
                                     checked={layer.checked || false}
-                                    onChange={() => handleLayer(layer.id)}
+                                    onChange={() => handleLayer(layer)}
                                 />
                                 <label htmlFor={`layer-${layer.id}`} style={{ marginLeft: '8px' }}>{layer.name}</label>
                             </div>
@@ -71,18 +120,38 @@ const MyAppPage = () => {
                     </div>
                 </div>
 
-                <div style={{ border: '1px solid', width: 'calc(100% - 240px)', background: '#fff2cc', alignContent: 'center' }}>
+                <div style={{ border: '1px solid', width: 'calc(100% - 240px)', background: '#fff2cc', alignContent: 'center', position:'relative', overflow:'hidden'}}>
                     {layerTable && (
                         <div style={{ position: 'absolute', zIndex: 1 }}>
                             <MyServiceListTable serviceLayers={serviceLayers} setServiceLayers={setServiceLayers} />
                         </div>
                     )}
+
                     <div id="cesiumContainer" style={{ width: '100%', height: '100%' }}>
+                        <div style={{position:'absolute', zIndex:1, top:'7px', right:'200px'}}>
+                            <button style={{padding:'5px'}} onClick={() => setIsClickSplitViewBtn(prev => !prev)}>화면분할</button>
+                        </div>
+
                         {viewerRef.current && changedLayer && (
                             <TilesetVisibilityUpdater viewer={viewerRef.current} layer={changedLayer} />
                         )}
+                        
+                        {viewerRef.current && isSplitViewOpen && 
+                            <div id="slider">
+                                <TilesetCompareUpdater viewer={viewerRef.current} layer={selectLayer}/>
+                            </div>
+                        }
                     </div>
-                    <div></div>
+
+                    { isClickSplitViewBtn && 
+                        <SplitViewModal 
+                            isSplitViewOpen={isSplitViewOpen} 
+                            splitViewLayers={splitViewLayers} 
+                            onChangeLayer={onChangeLayer} 
+                            onClickSplitView={onClickSplitView} 
+                            setIsClickSplitViewBtn={setIsClickSplitViewBtn}
+                        />
+                    }
                 </div>
             </div>
         </div>
@@ -90,3 +159,36 @@ const MyAppPage = () => {
 }
 
 export default MyAppPage;
+
+function SplitViewModal(props) {
+    const {isSplitViewOpen, splitViewLayers, onChangeLayer, onClickSplitView, setIsClickSplitViewBtn} = props;
+
+    return (
+        <div style={{border:'1px solid',zIndex:'5', position:'absolute', background:'#ffffff', top:'35%', right:'40%', width:'250px', height:'auto'}}>
+            <p style={{padding:'5px', borderBottom:'1px solid', background:'#eeeeee'}}>{isSplitViewOpen ? '화면분할 비교보기 중지' : '화면분할 레이어 선택'}</p>
+            {
+                isSplitViewOpen ? 
+                    <p style={{borderBottom:'1px solid', height:'100px', alignContent:'center'}}>화면분할 비교보기를 중지합니다.</p>
+                :
+                    splitViewLayers?.map(layer => (
+                        <div key={layer.id} style={{ borderBottom:'1px solid', display:'flex', justifyContent:'space-around'}}>
+                            <label htmlFor={`layer-${layer.id}`} style={{ borderRight:'1px solid',padding: '10px', width:'calc(100% - 50px)'}}>{layer.name}</label>
+                            <div style={{width:'50px', alignContent:'center'}}>
+                                <input
+                                    type="checkbox"
+                                    id={`layer-${layer.id}`}
+                                    name={`layer-${layer.id}`}
+                                    checked={layer.checked || false}
+                                    onChange={() => onChangeLayer(layer)}
+                                />
+                            </div>
+                        </div>
+                    ))
+            }
+            <div style={{ padding:'10px 5px', display:'flex', justifyContent:'space-around'}}>
+                <button style={{width:'70px', padding:'2px'}} onClick={onClickSplitView}>확인</button>
+                <button style={{width:'70px', padding:'2px'}} onClick={() => setIsClickSplitViewBtn(prev => !prev)}>취소</button>
+            </div>
+        </div>
+    )
+}
