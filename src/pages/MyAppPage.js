@@ -1,19 +1,20 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef} from 'react';
 import NavBarMenu from '../componenets/NavBarMenu';
 import MyServiceListTable from '../componenets/MyServiceListTable';
 import TilesetVisibilityUpdater from '../componenets/TilesetVisibilityUpdater';
-import { Ion, Viewer, CesiumTerrainProvider } from 'cesium';
+import { Ion, Viewer, CesiumTerrainProvider} from 'cesium';
 import "cesium/Build/Cesium/Widgets/widgets.css";
 import TilesetCompareUpdater from '../componenets/TilesetCompareUpdater';
 import './style/style.css';
 
-Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxMGFlMjAxNi1iMWJhLTRkN2MtOTYzYy1iMGY2YTc5Yzg1YTkiLCJpZCI6MjEyNjkyLCJpYXQiOjE3MTUzMDI0MDJ9.s678GHASYCJ8H8fyyTb79jsnFaDrWh-o7Xe8ig0XDqs';
+// Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxMGFlMjAxNi1iMWJhLTRkN2MtOTYzYy1iMGY2YTc5Yzg1YTkiLCJpZCI6MjEyNjkyLCJpYXQiOjE3MTUzMDI0MDJ9.s678GHASYCJ8H8fyyTb79jsnFaDrWh-o7Xe8ig0XDqs';
+Ion.defaultServer = 'http://172.18.247.14:31587';
 
 const MyAppPage = () => {
     const [isClickSplitViewBtn, setIsClickSplitViewBtn] = useState(false); //화면분할 버튼 클릭 체크용
     const [isSplitViewOpen, setIsSplitViewOpen] = useState(false); //화면분할 닫기 체크용
     const [splitViewLayers, setSplitViewLayers] = useState([]);//1차 서비스 레이어에서 선택한 레이어 중 체크박스한 서비스 레이어 데이터
-    const [selectLayer, setSelectLayer] = useState(null); //화면분할 보기로 선택된 레이어
+    const [selectLayer, setSelectLayer] = useState([]); //화면분할 보기로 선택된 레이어 - [] 배열로 선택 값 두 개 받기
 
     const [layerTable, setLayerTable] = useState(false); // 테이블 on/off 상태
     const [serviceLayers, setServiceLayers] = useState([]); // 선택한 서비스 레이어 데이터
@@ -33,21 +34,43 @@ const MyAppPage = () => {
                 return layer;
             })
         );
+        
+        setSplitViewLayers(prevLayers => {
+            const isSelected = prevLayers.some(layer => layer.id === selectLayer.id);
 
-        setSplitViewLayers([...splitViewLayers, selectLayer]);
+            return isSelected ? prevLayers : [...splitViewLayers, selectLayer]
+        });
     };
 
-    const onChangeLayer = (selectLayer) => {
-        setSplitViewLayers(prevLayers =>
-            prevLayers.map(layer => {
-                if (layer.id === selectLayer.id) {
+    //화면분할 레이어 선택 모달창에서 비교할 대상 두 개 선택
+    const onChangeLayer = (splitLayer) => {      
+        setSplitViewLayers(prevLayers => {
+            const isSelected = prevLayers.some(layer => layer.id === splitLayer.id && layer.checked);
+
+            if (selectLayer.length >= 2 && !isSelected) {
+                return prevLayers;
+            }
+
+            const updatedLayers = prevLayers.map(layer => {
+                if (layer.id === splitLayer.id) {
                     const updatedLayer = { ...layer, checked: !layer.checked };
-                    setSelectLayer(updatedLayer);
+                    if (updatedLayer.checked) {
+                        setSelectLayer(prevSelected => {
+                            if (!prevSelected?.some(l => l.id === updatedLayer.id)) {
+                                return [...prevSelected, updatedLayer];
+                            }
+                            return prevSelected;
+                        });
+                    } else {
+                        setSelectLayer(prevSelected => prevSelected.filter(l => l.id !== splitLayer.id));
+                    }
                     return updatedLayer;
                 }
                 return layer;
-            })
-        );
+            });
+
+            return updatedLayers;
+        });
     }
 
     const resetViewer = () => {
@@ -56,21 +79,23 @@ const MyAppPage = () => {
         }
     };
 
+    //화면분할 최종 선택 버튼 확인
     const onClickSplitView = () => {
         if(isSplitViewOpen){
             setSplitViewLayers(prevLayers =>
                 prevLayers.map(layer => {
                     if (layer?.checked) {
                         const updatedLayer = { ...layer, checked: !layer.checked };
-                        setSelectLayer(updatedLayer);
                         return updatedLayer;
                     }
                     return layer;
                 })
             );
             
-            resetViewer(); // Reset the viewer when closing the split view
+            setSelectLayer([]);
+            
         }
+        resetViewer(); // Reset the viewer when closing the split view
 
         setIsClickSplitViewBtn(prev => !prev);
 
@@ -80,15 +105,17 @@ const MyAppPage = () => {
     useEffect(() => {
         // 뷰어 초기화
         const initializeViewer = async () => {
-            const terrainProvider = await CesiumTerrainProvider.fromIonAssetId(1);
+            const terrainProvider = await CesiumTerrainProvider.fromIonAssetId(7);
             const viewer = new Viewer("cesiumContainer", {
-                terrainProvider: terrainProvider
+                terrainProvider: terrainProvider,
             });
+            
             viewer.scene.globe.depthTestAgainstTerrain = true;
             viewerRef.current = viewer; // useRef로 뷰어 객체에 대한 참조 저장
         };
         initializeViewer();
-    }, []);
+
+    }, [ ]);
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', background: '#deebf7', padding: '10px 0' }}>
@@ -128,7 +155,7 @@ const MyAppPage = () => {
                     )}
 
                     <div id="cesiumContainer" style={{ width: '100%', height: '100%' }}>
-                        <div style={{position:'absolute', zIndex:1, top:'7px', right:'200px'}}>
+                        <div style={{position:'absolute', zIndex:1, top:'45px', right:'7px'}}>
                             <button style={{padding:'5px'}} onClick={() => setIsClickSplitViewBtn(prev => !prev)}>화면분할</button>
                         </div>
 
@@ -165,23 +192,17 @@ function SplitViewModal(props) {
 
     return (
         <div style={{border:'1px solid',zIndex:'5', position:'absolute', background:'#ffffff', top:'35%', right:'40%', width:'250px', height:'auto'}}>
-            <p style={{padding:'5px', borderBottom:'1px solid', background:'#eeeeee'}}>{isSplitViewOpen ? '화면분할 비교보기 중지' : '화면분할 레이어 선택'}</p>
+            <p style={{padding:'5px', borderBottom:'1px solid', background:'#eeeeee', fontWeight:'bold'}}>{isSplitViewOpen ? '화면분할 비교보기 중지' : '화면분할 레이어 선택'}
+                {!isSplitViewOpen && <p style={{fontSize:'11px', color:'blue', padding:'5px 0'}}>※ 비교할 레이어 2개만 선택하세요</p>}
+            </p>
             {
                 isSplitViewOpen ? 
                     <p style={{borderBottom:'1px solid', height:'100px', alignContent:'center'}}>화면분할 비교보기를 중지합니다.</p>
                 :
                     splitViewLayers?.map(layer => (
-                        <div key={layer.id} style={{ borderBottom:'1px solid', display:'flex', justifyContent:'space-around'}}>
-                            <label htmlFor={`layer-${layer.id}`} style={{ borderRight:'1px solid',padding: '10px', width:'calc(100% - 50px)'}}>{layer.name}</label>
-                            <div style={{width:'50px', alignContent:'center'}}>
-                                <input
-                                    type="checkbox"
-                                    id={`layer-${layer.id}`}
-                                    name={`layer-${layer.id}`}
-                                    checked={layer.checked || false}
-                                    onChange={() => onChangeLayer(layer)}
-                                />
-                            </div>
+                        <div key={layer.id} style={{ borderBottom:'1px solid', display:'flex', justifyContent:'space-around', background: layer.checked && '#ffff00'}} onClick={() => onChangeLayer(layer)}>
+                            <label htmlFor={`splitLayer-${layer.id}`} style={{ borderRight:'1px solid',padding: '10px', width:'calc(100% - 40px)'}}>{layer.name}</label>
+                            <p style={{width:'40px', alignContent:'center'}}> {layer?.checked && '✓'}</p>
                         </div>
                     ))
             }

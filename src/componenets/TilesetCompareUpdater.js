@@ -2,28 +2,34 @@ import React, { useEffect, useState } from 'react'
 import { Ion, Cesium3DTileset, createOsmBuildingsAsync, SplitDirection, ScreenSpaceEventHandler, ScreenSpaceEventType } from 'cesium';
 import "cesium/Build/Cesium/Widgets/widgets.css";
 
-Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxMGFlMjAxNi1iMWJhLTRkN2MtOTYzYy1iMGY2YTc5Yzg1YTkiLCJpZCI6MjEyNjkyLCJpYXQiOjE3MTUzMDI0MDJ9.s678GHASYCJ8H8fyyTb79jsnFaDrWh-o7Xe8ig0XDqs';
+// Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxMGFlMjAxNi1iMWJhLTRkN2MtOTYzYy1iMGY2YTc5Yzg1YTkiLCJpZCI6MjEyNjkyLCJpYXQiOjE3MTUzMDI0MDJ9.s678GHASYCJ8H8fyyTb79jsnFaDrWh-o7Xe8ig0XDqs';
+Ion.defaultServer = 'http://172.18.247.14:31587';
 
 const TilesetCompareUpdater = ({viewer, layer}) => {
     const [tileset, setTileset] = useState(null);
 
     useEffect(() => {
       const updateTileset = async () => {
-        if (!viewer || !layer) return;
+        if (!viewer || layer.length === 0) return;
+
+        let leftLayer = layer[0];
+        let rightLayer = layer[1];
   
-        if (layer.checked) {
+        if (leftLayer.checked && rightLayer.checked) {
           // 레이어가 체크된 경우 타일셋을 추가
           try {
-            const left = await Cesium3DTileset.fromIonAssetId(layer.id);
-            viewer.scene.primitives.add(left);
-            left.splitDirection = SplitDirection.LEFT;
+            const leftTileset = await Cesium3DTileset.fromIonAssetId(leftLayer.id);
+            viewer.scene.primitives.add(leftTileset);
+            leftTileset.splitDirection = SplitDirection.LEFT;
 
-            viewer.zoomTo(left);
-            setTileset(left);
-
-            const right = await createOsmBuildingsAsync();
-            viewer.scene.primitives.add(right);
-            right.splitDirection = SplitDirection.RIGHT;
+            viewer.zoomTo(leftTileset);
+            setTileset(leftTileset);
+            
+            const rightTileset = await Cesium3DTileset.fromIonAssetId(rightLayer.id);
+            viewer.scene.primitives.add(rightTileset);
+            rightTileset.splitDirection = SplitDirection.RIGHT;
+            
+            // setTileset([...tileset, rightTileset]);
 
           } catch (error) {
             console.log(`Error loading tileset: ${error}`);
