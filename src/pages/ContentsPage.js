@@ -20,7 +20,7 @@ const ContentsPage = () => {
     const res = await getAssets();
     
     // const res = await getAssetLists();
-    // console.log("test", res)
+    console.log("test", res)
     if(res) {
       dispatch({type:"GET_ASSETS_SUCCESS", payload:{myAssetDatas: res.items}})
     }

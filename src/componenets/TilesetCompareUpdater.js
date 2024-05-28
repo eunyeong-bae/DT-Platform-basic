@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Ion, Cesium3DTileset, createOsmBuildingsAsync, SplitDirection, ScreenSpaceEventHandler, ScreenSpaceEventType } from 'cesium';
+import { Ion, Cesium3DTileset, SplitDirection, ScreenSpaceEventHandler, ScreenSpaceEventType } from 'cesium';
 import "cesium/Build/Cesium/Widgets/widgets.css";
 
-// Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxMGFlMjAxNi1iMWJhLTRkN2MtOTYzYy1iMGY2YTc5Yzg1YTkiLCJpZCI6MjEyNjkyLCJpYXQiOjE3MTUzMDI0MDJ9.s678GHASYCJ8H8fyyTb79jsnFaDrWh-o7Xe8ig0XDqs';
-Ion.defaultServer = 'http://172.18.247.14:31587';
+Ion.defaultAccessToken = process.env.REACT_APP_CESIUM_ACCESS_TOKEN;
+// Ion.defaultServer = process.env.REACT_APP_SELF_HOSTED_SERVER_URL;
 
 const TilesetCompareUpdater = ({viewer, layer}) => {
     const [tileset, setTileset] = useState(null);

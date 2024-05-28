@@ -1,13 +1,12 @@
 import axios from 'axios';
 
-function getAssetLists () {
-    // const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
-    const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxMGFlMjAxNi1iMWJhLTRkN2MtOTYzYy1iMGY2YTc5Yzg1YTkiLCJpZCI6MjEyNjkyLCJpYXQiOjE3MTUzMDI0MDJ9.s678GHASYCJ8H8fyyTb79jsnFaDrWh-o7Xe8ig0XDqs';
+const CESIUM_ACCESS_TOKEN = process.env.REACT_APP_CESIUM_ACCESS_TOKEN;
 
+function getAssetLists () {
     return async(dispatch, getState) => {
         const result = await axios.get('https://api.cesium.com/v1/assets', 
                         {
-                            headers: {Authorization: `Bearer ${accessToken}` }
+                            headers: {Authorization: `Bearer ${CESIUM_ACCESS_TOKEN}` }
                     })
                     .then((res) => {
                         return res.data;

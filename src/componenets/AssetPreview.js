@@ -3,7 +3,8 @@ import TilesetVisibilityUpdater from './TilesetVisibilityUpdater';
 import { Ion, Viewer, CesiumTerrainProvider } from 'cesium';
 import "cesium/Build/Cesium/Widgets/widgets.css";
 
-Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxMGFlMjAxNi1iMWJhLTRkN2MtOTYzYy1iMGY2YTc5Yzg1YTkiLCJpZCI6MjEyNjkyLCJpYXQiOjE3MTUzMDI0MDJ9.s678GHASYCJ8H8fyyTb79jsnFaDrWh-o7Xe8ig0XDqs';
+Ion.defaultAccessToken = process.env.REACT_APP_CESIUM_ACCESS_TOKEN;
+// Ion.defaultServer = process.env.REACT_APP_SELF_HOSTED_SERVER_URL;
 
 const styles = {
   container: {
@@ -47,6 +48,7 @@ const AssetPreview = ({currentPage, layer}) => {
         const viewer = new Viewer("cesiumContainer", {
             terrainProvider: terrainProvider
         });
+        // const viewer = new Viewer("cesiumContainer");
         viewer.scene.globe.depthTestAgainstTerrain = true;
         viewerRef.current = viewer; // useRef로 뷰어 객체에 대한 참조 저장
     };

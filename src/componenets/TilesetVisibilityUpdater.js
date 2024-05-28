@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Ion, Cesium3DTileset } from 'cesium';
 import "cesium/Build/Cesium/Widgets/widgets.css";
 
-Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxMGFlMjAxNi1iMWJhLTRkN2MtOTYzYy1iMGY2YTc5Yzg1YTkiLCJpZCI6MjEyNjkyLCJpYXQiOjE3MTUzMDI0MDJ9.s678GHASYCJ8H8fyyTb79jsnFaDrWh-o7Xe8ig0XDqs';
+Ion.defaultAccessToken = process.env.REACT_APP_CESIUM_ACCESS_TOKEN;
+// Ion.defaultServer = process.env.REACT_APP_SELF_HOSTED_SERVER_URL;
 
 const TilesetVisibilityUpdater = ({ viewer, layer }) => {
   const [tileset, setTileset] = useState(null);
 
   useEffect(() => {
+    console.log("test", layer)
     const updateTileset = async () => {
       if (!viewer) return;
 
@@ -33,7 +35,7 @@ const TilesetVisibilityUpdater = ({ viewer, layer }) => {
     return () => {
       // 컴포넌트 언마운트 시 타일셋 제거
       if (tileset) {
-        viewer.scene.primitives.remove(tileset);
+        viewer?.scene?.primitives.remove(tileset);
       }
     };
   }, [viewer, layer]);
