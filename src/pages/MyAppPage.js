@@ -118,36 +118,39 @@ const MyAppPage = () => {
     }, [ ]);
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', background: '#deebf7', padding: '10px 0' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%'}}>
             <NavBarMenu />
 
-            <div style={{ width: '100%', height: 'calc(100% - 70px)', display: 'flex', justifyContent: 'space-around' }}>
-                <div style={{ width: '200px', border: '1px solid', background: '#fff2cc' }}>
-                    <div style={{ padding: '20px 10px' }}>
-                        <p>
-                            서비스 레이어
-                            <button style={{ marginLeft: '5px', borderRadius: '50%', width: '20px', height: '20px', border: '1px solid' }} onClick={onClickAddLayer}>+</button>
-                        </p>
-                        <p style={{ width: '100%' }}>-------------------------</p>
+            <div style={{ width: '100%', height: 'calc(100% - 50px)', display: 'flex'}}>
+                <div style={{ width: '220px',  borderRight:'1px solid #2d3a42' }}>
+                    <div style={{ padding: '20px 15px' }}>
+                       <>
+                            <p>
+                                서비스 레이어
+                                <button style={{ marginLeft: '5px', borderRadius: '50%', width: '20px', height: '20px', border: '1px solid' }} onClick={onClickAddLayer}>+</button>
+                            </p>
+                            <p style={{ width: '100%' }}>-------------------------</p>
+                       </>
+                     
+                        <>
+                            {serviceLayers?.map((layer) => (
+                                <div key={layer.id} style={{ padding: '10px', textAlign: 'left' }}>
+                                    <input
+                                        type="checkbox"
+                                        id={`layer-${layer.id}`}
+                                        name={`layer-${layer.id}`}
+                                        checked={layer.checked || false}
+                                        onChange={() => handleLayer(layer)}
+                                    />
+                                    <label htmlFor={`layer-${layer.id}`} style={{ marginLeft: '8px' }}>{layer.name}</label>
+                                </div>
+                            ))}
+                        </>
                     </div>
 
-                    <div style={{ padding: '0 10px' }}>
-                        {serviceLayers?.map((layer) => (
-                            <div key={layer.id} style={{ padding: '10px', textAlign: 'left' }}>
-                                <input
-                                    type="checkbox"
-                                    id={`layer-${layer.id}`}
-                                    name={`layer-${layer.id}`}
-                                    checked={layer.checked || false}
-                                    onChange={() => handleLayer(layer)}
-                                />
-                                <label htmlFor={`layer-${layer.id}`} style={{ marginLeft: '8px' }}>{layer.name}</label>
-                            </div>
-                        ))}
-                    </div>
                 </div>
 
-                <div style={{ border: '1px solid', width: 'calc(100% - 240px)', background: '#fff2cc', alignContent: 'center', position:'relative', overflow:'hidden'}}>
+                <div style={{ border: '1px solid', width: 'calc(100% - 220px)', background: '#fff2cc', alignContent: 'center', position:'relative', overflow:'hidden'}}>
                     {layerTable && (
                         <div style={{ position: 'absolute', zIndex: 1 }}>
                             <MyServiceListTable serviceLayers={serviceLayers} setServiceLayers={setServiceLayers} />

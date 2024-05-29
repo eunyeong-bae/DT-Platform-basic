@@ -1,5 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import './Style/style.css';
 
 const styles = {
     container: {
@@ -61,13 +62,14 @@ const AddServiceMenu = ({layer, setLayer}) => {
     }
 
     return (
-        <div style={styles.container}>
-            <p style={styles.header}>내 서비스 목록 추가</p>
-            <div style={styles.content}>
-                <div style={styles.serviceListHeader}>
+        <div className='serviceMenu-wrap'>
+            <p className='serviceMenu-title '>내 서비스 목록 추가</p>
+
+            <div className='hostingList-container'>
+                <div className='hostingList-title'>
                     Cesium 자가 호스팅 서비스 목록 추가
                 </div>
-                <div style={styles.serviceListContainer}>
+                <div className='hostingList-wrap'>
                     {myAssetDatas?.map((serviceList) => (
                         <p
                             key={serviceList.id}

@@ -4,49 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import GoogleLogin from '../assets/google_login.png'
 import KakaoLogin from '../assets/kakao_login.png'
 import NaverLogin from '../assets/naver_login.png'
-
-const LoginStyle = {
-    border: {
-        border: '1px solid',
-        width: '100px',
-        height: '1px',
-        background: 'black',
-    },
-    form: {
-        background: '#fff', //5b9bd5 
-        boxShadow: '2px 2px 15px 7px #2e749e',
-        borderRadius: '15px',
-        width: '350px',
-        height: '450px',
-        margin: '0px auto',
-        padding: '20px',
-        boxSizing: 'border-box',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-    },
-    input: {
-        height: '20px',
-        marginTop: '3px',
-        padding: '5px'
-    },
-    label: {
-        textAlign: 'left',
-        // color:'#5b9bd5', 
-        fontSize: '14px',
-    },
-    signBtn: {
-        width: '90%',
-        height: '40px',
-        color: '#fff',
-        fontSize: '15px',
-        letterSpacing: '1px',
-        border: 'none',
-        borderRadius: '5px',
-        background: '#5b9bd5',
-    }
-};
+import './style/style.css';
 
 const SNSLogin = [
     {
@@ -108,33 +66,33 @@ const Login = () => {
     }
     //backgroundImage: 'url(' + require('../assets/company_bg.png')+')' 
     return (
-        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-            <h1 style={{ marginBottom: '50px', color: 'white', padding: '10px 0' }}>DT플랫폼 입장을 환영합니다.</h1>
+        <div className='login-container'>
+            <h1 className='login-title'>DT플랫폼 입장을 환영합니다.</h1>
 
-            <form style={LoginStyle.form}>
+            <form className='form-wrap'>
                 {
                     loginData.map((login) => {
                         return (
-                            <div key={login.id} style={{ display: 'flex', flexDirection: 'column', width: '90%' }}>
-                                <label htmlFor={login.id} style={LoginStyle.label}>{login.type === 'text' ? '사용자 ID' : '비밀번호'}</label>
+                            <div key={login.id} style={{ display: 'flex', flexDirection: 'column', width: '95%' }}>
+                                <label htmlFor={login.id} className='form-label'>{login.type === 'text' ? '사용자 ID' : '비밀번호'}</label>
                                 <input
                                     type={login.type}
                                     id={login.id}
                                     value={login.type === 'text' ? userId : password}
                                     placeholder={login.placeholder}
-                                    style={LoginStyle.input}
+                                    className='form-input'
                                     onChange={(e) => handleInputData(e.target.value, login.id)}
                                 />
                             </div>
                         )
                     })
                 }
-                <button style={LoginStyle.signBtn} onClick={onClickLogin}>Sign in</button>
+                <button className='form-button' onClick={onClickLogin}>Sign in</button>
 
-                <div style={{ display: 'flex', alignItems: 'center', height: '30px', justifyContent: 'space-between', width: '90%' }}>
-                    <div style={LoginStyle.border}></div>
+                <div style={{ display: 'flex', alignItems: 'center', height: '30px', justifyContent: 'space-between', width: '95%' }}>
+                    <div className='border-style'></div>
                     <p style={{ fontSize: '14px' }}>또는</p>
-                    <div style={LoginStyle.border}></div>
+                    <div className='border-style'></div>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column' }}>

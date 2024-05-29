@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
-
+import './Style/style.css';
 
 //홈 메뉴와 나의 앱 페이지 메뉴용
 const NavBarMenu = () => {
@@ -41,26 +41,26 @@ const NavBarMenu = () => {
     }
 
   return (
-    <div style={{ height:'60px', display:'flex', alignItems:'center', marginBottom:'15px'}}>
-        <ul style={{boxSizing:'border-box', listStyle:'none', display:'flex', height:'100%', margin:'0', alignItems:'center', justifyContent:'space-around', width:'100%', background:'#deebf7', padding:`${currentPage === 'home'? '10px 20px' : '10px 0px'}`}}>
+    <div className='navbar-container'>
+        <ul className='navbar-list-wrap'>
             { currentPage === 'home' 
                 ? 
                     <>
                         {
                             menus.map((menu, idx) => {
                                 return(
-                                    <li key={idx + menu} style={{border:'1px solid #EDF1F5', padding:'10px 20px', background:'white', borderRadius:'5px', fontWeight:'bold'}} onClick={() => onClickNavMenu(menu)}>{menu}</li>
+                                    <li key={idx + menu} className='navbar-list' onClick={() => onClickNavMenu(menu)}>{menu}</li>
                                 )
                             })
                         }
                     </>
                 : 
                     <>
-                        <div style={{border:'1px solid', display:'flex', justifyContent:'space-around', background:'#fff2cc', width:'450px', padding:'10px 0'}}>
+                        <div style={{display:'flex'}}>
                             {menus[0].map((menu, idx) => {
                                 return(
                                     <li key={idx + menu} 
-                                        style={{border:'1px solid lightgrey', padding:'10px 20px', background:'white', width:'130px'}} 
+                                        className='navbar-list' 
                                         onClick={() => onClickNavMenu(menu)}
                                     >
                                         {menu}
@@ -68,11 +68,11 @@ const NavBarMenu = () => {
                                 )
                             })}
                         </div>
-                        <div style={{border:'1px solid', display:'flex', justifyContent:'space-around', background:'#fff2cc', width:'calc(100% - 480px)', padding:'10px 0'}}>
+                        <div style={{display:'flex'}}>
                             {menus[1].map((menu, idx) => {
                                 return(
                                     <li key={idx + menu} 
-                                        style={{border:'1px solid lightgrey', padding:'10px 20px', background:'white', width:'130px'}} 
+                                        className='navbar-list' 
                                         onClick={() => onClickNavMenu(menu)}
                                     >
                                         {menu}

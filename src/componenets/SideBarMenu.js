@@ -1,6 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import DropdownMenu from './DropdownMenu';
+import './Style/style.css';
 
 //나의 콘텐츠 관리와 나의 스토리 앱 하단 서브메뉴용 
 const SideBarMenu = () => {
@@ -39,10 +40,12 @@ const SideBarMenu = () => {
 
     return (
         <ul style={{width:'200px'}}>
+            <h3 style={{padding:'15px', borderBottom: '1px solid #2d3a42'}}>메뉴</h3>
+
             { sideMenus.map((menu, idx) => {
                 return(
                     <li key={idx + menu} 
-                        style={{border: '1px solid #EEE', width:'100%', padding:'15px', margin:'10px 0', boxSizing:'border-box',background:'#ffffff'}}
+                        className='sidebarMenu-list'
                         onClick={() => onClickSideBarMenu(menu)}
                     >
                         <strong>{menu}</strong>

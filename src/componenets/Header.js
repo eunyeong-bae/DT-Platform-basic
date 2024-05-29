@@ -3,6 +3,7 @@ import DropdownMenu from './DropdownMenu';
 import Logo from '../assets/company_logo.png'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import './Style/style.css';
 
 const Header = () => {    
 
@@ -35,12 +36,12 @@ const Header = () => {
     }
 
   return (
-    <div style={headerStyle.container}>
-        <img src={Logo} alt='DT 플랫폼 로고' width='150px' height='50px' style={{padding:'3px 5px'}}/>
+    <div className='header-wrap'>
+        <img className='header-logo' src={Logo} alt='DT 플랫폼 로고' width='150px' height='45px'/>
 
-        <div style={headerStyle.rMenuWrap}>
+        <div className='header-rMenuWrap'>
             <p 
-                style={headerStyle.rMenuTitle} 
+                className='header-rMenuTitle'
                 onClick={onClickRMenu}
             >
                 {currentPage === 'home' ? '사용자 관리' : '되돌아가기'}

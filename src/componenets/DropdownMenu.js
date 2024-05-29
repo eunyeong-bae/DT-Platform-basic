@@ -1,6 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import './Style/style.css';
 
 //홈 화면의 사용자 관리 하단 메뉴와 내 콘텐츠 관리의 내 서비스 목록 관리 메뉴용
 const DropdownMenu = () => {
@@ -51,11 +52,12 @@ const DropdownMenu = () => {
     <>
       {
         subBarMenuInfo?.selectedSubMenu === '사용자 관리' ? 
-          <ul style={{listStyle:'none', zIndex:'3', position:'absolute', background:'#ffffff', width:'100%',  top:'47px', fontWeight:'bold'}}>
+          <ul className='dropdown-wrap'>
               { menus.map((menu, idx) => {
                   return(
                       <li key={idx + menu} 
-                        style={{padding:'15px 5px', borderBottom:'1px solid'}} 
+                        className='dropdown-list' 
+                        style={{borderTop: menu === '로그아웃' && '1px solid #e5e5e5'}}
                         onClick={() => onClickDropdownMenu(menu)}
                       >
                         {menu}
@@ -64,11 +66,11 @@ const DropdownMenu = () => {
               })}
           </ul>
         :
-          <ul style={{listStyle:'none', zIndex:'3', position:'absolute', left:'250px', height:'auto', top:'130px', border:'1px solid', width:'200px', fontWeight:'bold', background:'#ffffff'}}>
+          <ul className='dropdown-wrap content'>
             { menus.map((menu, idx) => {
                 return(
                     <li key={idx + menu} 
-                      style={{padding:'15px 5px', borderBottom:'1px solid'}} 
+                      className='dropdown-list'
                       onClick={() => onClickDropdownMenu(menu)}
                     >
                       {menu}

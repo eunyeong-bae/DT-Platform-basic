@@ -1,6 +1,7 @@
 import React from 'react'
 import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux'
+import './Style/style.css';
 
 const ModalPortal = () => {
     const {selectedMenu, isModalOpen} = useSelector(state => state.modalInfo);
@@ -32,14 +33,16 @@ export default ModalPortal
 
 function ModalContent({selectedMenu, onClose}) {
     return (
-        <div className="modal" style={{width:'400px', height:'350px', position:'absolute', top: '30%', left:'40%', border:'1px solid', background:'white'}}>
+        <div className="modal-wrap modal">
             <div style={{display:'flex', flexDirection:'column', alignItems:'center', padding:'20px 10px'}}>
                 <div style={{display:'flex', width:'100%', height:'40px', justifyContent:'center', alignItems:'center'}}>
-                    <h3>{selectedMenu}</h3>
+                    <h3 style={{width:'calc(100% - 20px)', textAlign:'center'}}>{selectedMenu}</h3>
                     <button style={{marginLeft:'5px', width:'20px', height:'20px'}} onClick={onClose}>X</button>
                 </div>
-                <div style={{border:'1px solid', width: 'calc(100% - 50px)', background:'black', marginTop:'10px'}}></div>
-                <div style={{width:'100%', height:'calc(100% - 61px)', padding:'20px'}}>
+
+                <div style={{border:'1px solid', width: '100%'}}></div>
+
+                <div style={{width:'100%', height:'calc(100% - 41px)', padding:'10px 20px'}}>
                     {
                         selectedMenu === '사용자 등록정보' ?
                             <UserInfo />
